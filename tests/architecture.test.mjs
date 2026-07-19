@@ -135,3 +135,20 @@ test('AI service specification includes FastAPI models cache and chat intents', 
   assert.match(kong, /ai-service/);
   assert.match(kong, /\/api\/v1\/ai\/chat/);
 });
+
+
+test('README includes requirements and run guidance', async () => {
+  const readme = await readFile('README.md', 'utf8');
+  assert.match(readme, /## Requirements/);
+  assert.match(readme, /Node.js 20 or newer/);
+  assert.match(readme, /## Installation/);
+  assert.match(readme, /npm install/);
+  assert.match(readme, /## Run the frontend app/);
+  assert.match(readme, /npm run dev/);
+  assert.match(readme, /## Build the frontend/);
+  assert.match(readme, /npm run build/);
+  assert.match(readme, /## Run backend service prototypes/);
+  assert.match(readme, /services\/search-service/);
+  assert.match(readme, /services\/booking-service/);
+  assert.match(readme, /services\/ai-service/);
+});
