@@ -1,0 +1,28 @@
+_format_version: "3.0"
+services:
+  - name: auth-service
+    url: http://auth.service.local
+    routes: [{ name: auth, paths: ["/api/auth"] }]
+  - name: search-service
+    url: http://search.service.local
+    routes: [{ name: search, paths: ["/api/search", "/api/stations", "/api/fare"] }]
+  - name: booking-service
+    url: http://booking.service.local
+    routes: [{ name: booking, paths: ["/api/booking", "/api/cancellation"] }]
+  - name: payment-service
+    url: http://payment.service.local
+    routes: [{ name: payment, paths: ["/api/payment"] }]
+  - name: pnr-service
+    url: http://pnr.service.local
+    routes: [{ name: pnr, paths: ["/api/pnr", "/api/live-train"] }]
+  - name: notification-service
+    url: http://notification.service.local
+    routes: [{ name: notifications, paths: ["/api/notifications"] }]
+  - name: ai-service
+    url: http://ai.service.local
+    routes: [{ name: ai, paths: ["/api/ai-booking", "/api/ai-assistant"] }]
+plugins:
+  - name: rate-limiting
+    config: { minute: 600, policy: local }
+  - name: request-size-limiting
+    config: { allowed_payload_size: 2 }

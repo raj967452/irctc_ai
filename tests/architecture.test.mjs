@@ -59,3 +59,21 @@ test('performance optimizations and PWA booking blueprint are present', async ()
   assert.match(serviceWorker, /booking-status-sync/);
   assert.match(serviceWorker, /push/);
 });
+
+
+test('backend microservices design is documented and routeable', async () => {
+  const doc = await readFile('docs/microservices-architecture.md', 'utf8');
+  const services = await readFile('lib/backend/services.ts', 'utf8');
+  const kong = await readFile('infra/kong/routes.yaml', 'utf8');
+  assert.match(doc, /Kong \/ AWS API Gateway \/ Envoy/);
+  assert.match(doc, /Auth/);
+  assert.match(doc, /Search/);
+  assert.match(doc, /Booking/);
+  assert.match(doc, /Razorpay/);
+  assert.match(doc, /TensorFlow/);
+  assert.match(doc, /ClickHouse/);
+  assert.match(services, /Booking Service/);
+  assert.match(services, /Saga orchestration/);
+  assert.match(kong, /booking-service/);
+  assert.match(kong, /rate-limiting/);
+});

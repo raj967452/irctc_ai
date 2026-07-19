@@ -38,6 +38,10 @@ See `docs/performance-optimizations.md` for edge rendering, code splitting, asse
 - **AI Assistant (`/ai-assistant/chat`):** conversational search, voice input affordance, contextual recommendations, booking help, complaint resolution, and 12 Indian languages.
 - **State/API:** persisted Zustand booking store and React Query API client with optimistic booking mutation rollback.
 
+## Backend microservices
+
+The backend design now includes Kong / AWS API Gateway / Envoy routing, Auth, Search, Booking, Payment, PNR, Notification, AI, Analytics, and User services with their storage choices and scaling strategies. See `docs/microservices-architecture.md` and `infra/kong/routes.yaml`.
+
 ## Commands
 
 ```bash

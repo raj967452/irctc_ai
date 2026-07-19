@@ -1,2 +1,7 @@
-const layers = ['Global DNS + WAF', 'L7 Load Balancer', 'Next.js Edge SSR', 'API Gateway', 'Booking Orchestrator', 'Inventory Shards', 'Kafka Event Stream', 'AI Feature Store'];
-export function ArchitecturePanel() { return <section className="glass rounded-3xl p-6"><h2 className="text-2xl font-black">Backend system for optimal performance</h2><div className="mt-4 grid gap-3 md:grid-cols-4">{layers.map((layer, index) => <span key={layer} className="rounded-2xl bg-[#06255a] p-4 font-bold text-white">{index + 1}. {layer}</span>)}</div><p className="mt-5 text-slate-700">The load balancer routes by region and intent. Cached reads serve schedules and PNR, while booking writes use idempotency keys, distributed inventory locks, rate limiting, queues, and payment callbacks for flash-sale resilience.</p></section>; }
+import { backendServices } from '@/lib/backend/services';
+
+const gateway = 'Kong / AWS API Gateway / Envoy';
+
+export function ArchitecturePanel() {
+  return <section className="glass rounded-3xl p-6"><h2 className="text-2xl font-black">Backend microservices for 10M users</h2><p className="mt-2 text-slate-700">{gateway} performs JWT validation, quota checks, L7 routing, and circuit breaking before requests fan out to independent service clusters.</p><div className="mt-4 grid gap-3 md:grid-cols-3">{backendServices.map(service => <article key={service.name} className="rounded-2xl bg-[#06255a] p-4 text-white"><strong>{service.name}</strong><p className="text-sm text-blue-100">{service.storage.join(' · ')}</p><small>{service.scaleStrategy}</small></article>)}</div></section>;
+}
