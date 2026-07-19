@@ -7,6 +7,7 @@ import (
     "log"
     "math/rand"
     "net/http"
+    "os"
     "strconv"
     "time"
 
@@ -45,7 +46,11 @@ var kafkaWriter *kafka.Writer
 
 func main() {
     var err error
-    db, err = sql.Open("postgres", "postgres://user:pass@db-cluster:5432/bookings?sslmode=disable")
+    dbURL := os.Getenv("DATABASE_URL")
+    if dbURL == "" {
+        log.Fatal("DATABASE_URL environment variable is required")
+    }
+    db, err = sql.Open("postgres", dbURL)
     if err != nil {
         log.Fatal(err)
     }
@@ -53,8 +58,12 @@ func main() {
     db.SetMaxIdleConns(50)
     db.SetConnMaxLifetime(time.Hour)
 
+    kafkaAddr := os.Getenv("KAFKA_ADDR")
+    if kafkaAddr == "" {
+        kafkaAddr = "kafka-cluster:9092"
+    }
     kafkaWriter = &kafka.Writer{
-        Addr:     kafka.TCP("kafka-cluster:9092"),
+        Addr:     kafka.TCP(kafkaAddr),
         Topic:    "booking-events",
         Balancer: &kafka.LeastBytes{},
     }
