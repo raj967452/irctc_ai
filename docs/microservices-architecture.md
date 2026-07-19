@@ -72,6 +72,7 @@
 - `infra/kong/kong.yml` contains concrete Kong service specifications for `/api/v1/search`, `/api/v1/trains`, `/api/v1/booking`, and `/api/v1/ticket` with per-route rate limits, CORS/JWT, and ACL plugins.
 - `services/search-service/src/index.ts` provides a Node.js + Express Search Service using ElasticSearch for train queries and Redis Cluster for five-minute cache-aside responses.
 - `services/booking-service/main.go` provides a high-performance Go Booking Service using Gin, PostgreSQL connection pooling, serializable transactions, `SELECT ... FOR UPDATE` seat locks, and Kafka booking events.
+- `services/ai-service/main.py` provides a Python + FastAPI AI Service with TensorFlow confirmation prediction, joblib recommendations/NLP classification, Redis Cluster prediction caching, and chat intent routing.
 
 ## Scaling model for 10 million users
 

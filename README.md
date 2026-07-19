@@ -40,7 +40,7 @@ See `docs/performance-optimizations.md` for edge rendering, code splitting, asse
 
 ## Backend microservices
 
-The backend design now includes Kong / AWS API Gateway / Envoy routing, Auth, Search, Booking, Payment, PNR, Notification, AI, Analytics, and User services with their storage choices and scaling strategies. See `docs/microservices-architecture.md`, `infra/kong/routes.yaml`, `infra/kong/kong.yml`, `services/search-service/src/index.ts`, and `services/booking-service/main.go`.
+The backend design now includes Kong / AWS API Gateway / Envoy routing, Auth, Search, Booking, Payment, PNR, Notification, AI, Analytics, and User services with their storage choices and scaling strategies. See `docs/microservices-architecture.md`, `infra/kong/routes.yaml`, `infra/kong/kong.yml`, `services/search-service/src/index.ts`, `services/booking-service/main.go`, and `services/ai-service/main.py`.
 
 ## Commands
 

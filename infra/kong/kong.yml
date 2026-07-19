@@ -33,3 +33,21 @@ services:
           policy: local
       - name: acl
       - name: jwt
+
+
+  - name: ai-service
+    url: http://ai-service:3000
+    routes:
+      - name: ai-v1
+        paths:
+          - /api/v1/ai/predict
+          - /api/v1/ai/recommend
+          - /api/v1/ai/chat
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 60
+          policy: local
+      - name: cors
+      - name: jwt

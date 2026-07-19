@@ -97,3 +97,24 @@ test('service specifications include Kong, Express search, and Go booking implem
   assert.match(booking, /kafka.Writer/);
   assert.match(booking, /BOOKING_CREATED/);
 });
+
+
+test('AI service specification includes FastAPI models cache and chat intents', async () => {
+  const ai = await readFile('services/ai-service/main.py', 'utf8');
+  const requirements = await readFile('services/ai-service/requirements.txt', 'utf8');
+  const kong = await readFile('infra/kong/kong.yml', 'utf8');
+  assert.match(ai, /FastAPI\(title="IRCTC AI Service"\)/);
+  assert.match(ai, /tf.keras.models.load_model/);
+  assert.match(ai, /joblib.load/);
+  assert.match(ai, /redis.RedisCluster/);
+  assert.match(ai, /\/predict\/confirmation/);
+  assert.match(ai, /\/recommend\/trains/);
+  assert.match(ai, /\/chat/);
+  assert.match(ai, /SEARCH_TRAIN/);
+  assert.match(ai, /PNR_STATUS/);
+  assert.match(ai, /BOOKING_HELP/);
+  assert.match(requirements, /fastapi/);
+  assert.match(requirements, /tensorflow/);
+  assert.match(kong, /ai-service/);
+  assert.match(kong, /\/api\/v1\/ai\/chat/);
+});
