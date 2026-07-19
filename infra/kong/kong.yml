@@ -1,0 +1,53 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - name: search-service
+    url: http://search-service:3000
+    routes:
+      - name: search-v1
+        paths:
+          - /api/v1/search
+          - /api/v1/trains
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: cors
+      - name: jwt
+
+  - name: booking-service
+    url: http://booking-service:3000
+    routes:
+      - name: booking-v1
+        paths:
+          - /api/v1/booking
+          - /api/v1/ticket
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 30
+          policy: local
+      - name: acl
+      - name: jwt
+
+
+  - name: ai-service
+    url: http://ai-service:3000
+    routes:
+      - name: ai-v1
+        paths:
+          - /api/v1/ai/predict
+          - /api/v1/ai/recommend
+          - /api/v1/ai/chat
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 60
+          policy: local
+      - name: cors
+      - name: jwt

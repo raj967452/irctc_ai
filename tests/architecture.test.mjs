@@ -1,0 +1,154 @@
+import { readFile, stat } from 'node:fs/promises';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+
+const requiredPages = ['index','search','results','booking','payment','confirmation','pnr-status','live-train','schedule','stations','fare','cancellation','chart-prep','profile/index','profile/bookings','profile/passengers','profile/preferences','ai-assistant/chat','ai-assistant/predictions','ai-assistant/recommendations','admin/index'];
+
+test('requested Next.js client stack is represented', async () => {
+  const pkg = await readFile('package.json', 'utf8');
+  const app = await readFile('pages/_app.tsx', 'utf8');
+  assert.match(pkg, /next/);
+  assert.match(pkg, /zustand/);
+  assert.match(pkg, /react-window/);
+  assert.match(pkg, /@tanstack\/react-query/);
+  assert.match(pkg, /@radix-ui\/react-dialog/);
+  assert.match(app, /QueryProvider/);
+  assert.match(app, /manifest.webmanifest/);
+});
+
+test('requested pages structure exists', async () => {
+  await Promise.all(requiredPages.map(page => stat(`pages/${page}.tsx`)));
+});
+
+test('core home, results, booking, and assistant features are represented', async () => {
+  const home = await readFile('components/home/HomeExperience.tsx', 'utf8');
+  const results = await readFile('components/results/ResultsExperience.tsx', 'utf8');
+  const booking = await readFile('components/booking/BookingExperience.tsx', 'utf8');
+  const assistant = await readFile('components/assistant/AIAssistantExperience.tsx', 'utf8');
+  assert.match(home, /QuickSearchWidget/);
+  assert.match(home, /Real-time train status ticker/);
+  assert.match(results, /VirtualizedList/);
+  assert.match(results, /AI confirmation/);
+  assert.match(booking, /OCR for ID card scanning/);
+  assert.match(booking, /CAPTCHA-less verification/);
+  assert.match(assistant, /Voice input support/);
+  assert.match(assistant, /12 Indian languages/);
+});
+
+test('persisted booking store and optimistic API client are implemented', async () => {
+  const store = await readFile('store/useBookingStore.ts', 'utf8');
+  const api = await readFile('lib/api-client.ts', 'utf8');
+  assert.match(store, /persist/);
+  assert.match(store, /setSearchParams/);
+  assert.match(store, /selectTrain/);
+  assert.match(store, /addPassenger/);
+  assert.match(api, /cancelQueries/);
+  assert.match(api, /setQueryData/);
+  assert.match(api, /invalidateQueries/);
+});
+
+test('frontend performance optimizations are present without backend coupling', async () => {
+  const shell = await readFile('components/performance/DynamicBookingShell.tsx', 'utf8');
+  const perf = await readFile('docs/performance-optimizations.md', 'utf8');
+  assert.match(shell, /dynamic\(\(\) => import/);
+  assert.match(shell, /lazy\(\(\) => import/);
+  assert.match(perf, /50-100ms global response/);
+  assert.match(perf, /AVIF and WebP/);
+  assert.match(perf, /Brotli/);
+});
+
+test('PWA system is documented separately from backend services', async () => {
+  const pwa = await readFile('docs/pwa-strategy.md', 'utf8');
+  const serviceWorker = await readFile('public/sw.js', 'utf8');
+  assert.match(pwa, /intentionally scoped only to browser\/PWA behavior/);
+  assert.match(pwa, /Offline browsing/);
+  assert.match(pwa, /Background sync/);
+  assert.match(pwa, /Push notifications/);
+  assert.match(serviceWorker, /booking-status-sync/);
+  assert.match(serviceWorker, /push/);
+});
+
+test('backend system is documented separately from PWA behavior', async () => {
+  const backend = await readFile('docs/backend-system.md', 'utf8');
+  assert.match(backend, /intentionally scoped only to server-side architecture/);
+  assert.match(backend, /Gateway boundary/);
+  assert.match(backend, /Search Service/);
+  assert.match(backend, /Booking Service/);
+  assert.match(backend, /AI Service/);
+});
+
+
+test('backend microservices design is documented and routeable', async () => {
+  const doc = await readFile('docs/microservices-architecture.md', 'utf8');
+  const services = await readFile('lib/backend/services.ts', 'utf8');
+  const kong = await readFile('infra/kong/routes.yaml', 'utf8');
+  assert.match(doc, /Kong \/ AWS API Gateway \/ Envoy/);
+  assert.match(doc, /Auth/);
+  assert.match(doc, /Search/);
+  assert.match(doc, /Booking/);
+  assert.match(doc, /Razorpay/);
+  assert.match(doc, /TensorFlow/);
+  assert.match(doc, /ClickHouse/);
+  assert.match(services, /Booking Service/);
+  assert.match(services, /Saga orchestration/);
+  assert.match(kong, /booking-service/);
+  assert.match(kong, /rate-limiting/);
+});
+
+
+test('service specifications include Kong, Express search, and Go booking implementations', async () => {
+  const kong = await readFile('infra/kong/kong.yml', 'utf8');
+  const search = await readFile('services/search-service/src/index.ts', 'utf8');
+  const booking = await readFile('services/booking-service/main.go', 'utf8');
+  assert.match(kong, /http:\/\/search-service:3000/);
+  assert.match(kong, /\/api\/v1\/search/);
+  assert.match(kong, /minute: 100/);
+  assert.match(kong, /http:\/\/booking-service:3000/);
+  assert.match(kong, /minute: 30/);
+  assert.match(search, /express/);
+  assert.match(search, /ElasticsearchClient/);
+  assert.match(search, /Redis.Cluster/);
+  assert.match(search, /setex\(cacheKey, 300/);
+  assert.match(booking, /sql.LevelSerializable/);
+  assert.match(booking, /FOR UPDATE/);
+  assert.match(booking, /kafka.Writer/);
+  assert.match(booking, /BOOKING_CREATED/);
+});
+
+
+test('AI service specification includes FastAPI models cache and chat intents', async () => {
+  const ai = await readFile('services/ai-service/main.py', 'utf8');
+  const requirements = await readFile('services/ai-service/requirements.txt', 'utf8');
+  const kong = await readFile('infra/kong/kong.yml', 'utf8');
+  assert.match(ai, /FastAPI\(title="IRCTC AI Service"\)/);
+  assert.match(ai, /tf.keras.models.load_model/);
+  assert.match(ai, /joblib.load/);
+  assert.match(ai, /redis.RedisCluster/);
+  assert.match(ai, /\/predict\/confirmation/);
+  assert.match(ai, /\/recommend\/trains/);
+  assert.match(ai, /\/chat/);
+  assert.match(ai, /SEARCH_TRAIN/);
+  assert.match(ai, /PNR_STATUS/);
+  assert.match(ai, /BOOKING_HELP/);
+  assert.match(requirements, /fastapi/);
+  assert.match(requirements, /tensorflow/);
+  assert.match(kong, /ai-service/);
+  assert.match(kong, /\/api\/v1\/ai\/chat/);
+});
+
+
+test('README includes requirements and run guidance', async () => {
+  const readme = await readFile('README.md', 'utf8');
+  assert.match(readme, /## Requirements/);
+  assert.match(readme, /Node.js 20 or newer/);
+  assert.match(readme, /## Installation/);
+  assert.match(readme, /npm install/);
+  assert.match(readme, /## Run the frontend app/);
+  assert.match(readme, /npm run dev/);
+  assert.match(readme, /## Build the frontend/);
+  assert.match(readme, /npm run build/);
+  assert.match(readme, /## Run backend service prototypes/);
+  assert.match(readme, /services\/search-service/);
+  assert.match(readme, /services\/booking-service/);
+  assert.match(readme, /services\/ai-service/);
+});

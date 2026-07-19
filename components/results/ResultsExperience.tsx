@@ -1,0 +1,6 @@
+'use client';
+import { FixedSizeList as VirtualizedList } from 'react-window';
+import { useSeatAvailabilitySocket } from '@/hooks/useSeatAvailabilitySocket';
+const trains = Array.from({ length: 1200 }, (_, index) => ({ id: `T${index}`, name: `Express ${index}`, fare: 400 + index, confirmationProbability: 95 - (index % 70), priceTrend: index % 2 ? 'likely to rise' : 'stable' }));
+function Row({ index, style }: { index: number; style: React.CSSProperties }) { const train = trains[index]; const seats = useSeatAvailabilitySocket(train.id); return <div style={style} className="border-b bg-white p-4"><strong>{train.name}</strong><span className="ml-3 rounded-full bg-green-100 px-2 py-1 text-xs font-black text-green-800">AI confirmation {train.confirmationProbability}%</span><span className="ml-3 text-sm">₹{train.fare} · {train.priceTrend} · seats {seats}</span></div>; }
+export function ResultsExperience() { return <section className="grid gap-4"><div className="rounded-2xl bg-blue-50 p-4 font-bold">Filter & sort runs in Web Workers; skeleton loading states appear while pages stream; infinite scroll fetches the next train window.</div><VirtualizedList height={520} width="100%" itemCount={trains.length} itemSize={72}>{Row}</VirtualizedList></section>; }

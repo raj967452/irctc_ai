@@ -1,0 +1,30 @@
+{
+  "name": "irctc-ai",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbo",
+    "build": "next build --turbo",
+    "start": "next start",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "latest",
+    "@tanstack/react-query": "latest",
+    "next": "14.2.5",
+    "react": "latest",
+    "react-dom": "latest",
+    "zustand": "latest",
+    "react-window": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "autoprefixer": "latest",
+    "postcss": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest",
+    "workbox-cli": "latest"
+  }
+}
