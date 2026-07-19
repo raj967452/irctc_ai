@@ -1,0 +1,20 @@
+{
+  "name": "irctc-search-service",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "latest",
+    "express": "latest",
+    "ioredis": "latest"
+  },
+  "devDependencies": {
+    "@types/express": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}

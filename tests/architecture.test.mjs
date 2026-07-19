@@ -77,3 +77,23 @@ test('backend microservices design is documented and routeable', async () => {
   assert.match(kong, /booking-service/);
   assert.match(kong, /rate-limiting/);
 });
+
+
+test('service specifications include Kong, Express search, and Go booking implementations', async () => {
+  const kong = await readFile('infra/kong/kong.yml', 'utf8');
+  const search = await readFile('services/search-service/src/index.ts', 'utf8');
+  const booking = await readFile('services/booking-service/main.go', 'utf8');
+  assert.match(kong, /http:\/\/search-service:3000/);
+  assert.match(kong, /\/api\/v1\/search/);
+  assert.match(kong, /minute: 100/);
+  assert.match(kong, /http:\/\/booking-service:3000/);
+  assert.match(kong, /minute: 30/);
+  assert.match(search, /express/);
+  assert.match(search, /ElasticsearchClient/);
+  assert.match(search, /Redis.Cluster/);
+  assert.match(search, /setex\(cacheKey, 300/);
+  assert.match(booking, /sql.LevelSerializable/);
+  assert.match(booking, /FOR UPDATE/);
+  assert.match(booking, /kafka.Writer/);
+  assert.match(booking, /BOOKING_CREATED/);
+});

@@ -67,6 +67,12 @@
 6. Notification Service fans out SMS, email, WebSocket, and push updates.
 7. Analytics and AI Services consume Kafka events for fraud analytics, waitlist prediction, and recommendation feedback.
 
+## Service implementation specs
+
+- `infra/kong/kong.yml` contains concrete Kong service specifications for `/api/v1/search`, `/api/v1/trains`, `/api/v1/booking`, and `/api/v1/ticket` with per-route rate limits, CORS/JWT, and ACL plugins.
+- `services/search-service/src/index.ts` provides a Node.js + Express Search Service using ElasticSearch for train queries and Redis Cluster for five-minute cache-aside responses.
+- `services/booking-service/main.go` provides a high-performance Go Booking Service using Gin, PostgreSQL connection pooling, serializable transactions, `SELECT ... FOR UPDATE` seat locks, and Kafka booking events.
+
 ## Scaling model for 10 million users
 
 - Search and PNR are read-optimized with Redis edge caches and regional read replicas.
