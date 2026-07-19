@@ -24,6 +24,12 @@ A Next.js 14, TypeScript, React Server Components, SSR, Turbopack, Tailwind CSS,
 - Fraud, bot, and payment-risk scoring before final ticket confirmation.
 - Personalized accessibility, meal, berth, and disruption notifications.
 
+## Page structure
+
+The prototype now includes a `/pages` route map for home, search, results, booking, payment, confirmation, PNR, live train, schedule, stations, fare, cancellation, chart preparation, profile, AI assistant, and admin workflows. Booking uses route-level dynamic imports and component-level lazy loading.
+
+See `docs/performance-optimizations.md` for edge rendering, code splitting, asset optimization, and PWA details.
+
 ## Commands
 
 ```bash
