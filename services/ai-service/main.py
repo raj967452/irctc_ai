@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 from typing import Any, List, Optional
 
 import joblib
@@ -15,7 +16,9 @@ app = FastAPI(title="IRCTC AI Service")
 confirmation_model = tf.keras.models.load_model("models/confirmation_predictor.h5")
 recommendation_model = joblib.load("models/recommendation_engine.pkl")
 nlp_model = joblib.load("models/nlp_classifier.pkl")
-redis_client = redis.RedisCluster(host="redis-cluster", port=6379)
+redis_host = os.getenv("REDIS_HOST", "redis-cluster")
+redis_port = int(os.getenv("REDIS_PORT", "6379"))
+redis_client = redis.RedisCluster(host=redis_host, port=redis_port)
 
 
 class SearchQuery(BaseModel):
