@@ -1,0 +1,1 @@
+@tailwind base;@tailwind components;@tailwind utilities;:root{color-scheme:light}body{margin:0;background:#eef5ff;color:#102033}.glass{background:rgba(255,255,255,.9);box-shadow:0 24px 70px rgba(9,37,84,.16);backdrop-filter:blur(16px)}
