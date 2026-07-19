@@ -1,1 +1,0 @@
-export default function Page() { return <main className="mx-auto max-w-5xl p-8"><h1 className="text-4xl font-black">pnr optimized page</h1><p className="mt-4 text-lg text-slate-700">Served with Next.js 14 SSR, React Server Components, edge caching, and React Query hydration for low-latency IRCTC workflows.</p></main>; }

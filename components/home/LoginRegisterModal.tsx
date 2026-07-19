@@ -1,0 +1,3 @@
+'use client';
+import * as Dialog from '@radix-ui/react-dialog';
+export default function LoginRegisterModal() { return <Dialog.Root><Dialog.Trigger className="rounded-full bg-blue-700 px-5 py-3 font-black text-white">Login / Register</Dialog.Trigger><Dialog.Portal><Dialog.Overlay className="fixed inset-0 bg-black/50"/><Dialog.Content className="fixed left-1/2 top-1/2 w-[92vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-3xl bg-white p-6"><Dialog.Title className="text-2xl font-black">Secure IRCTC access</Dialog.Title><p className="mt-2">Lazy loaded modal for OTP, passkey, and account recovery flows.</p><Dialog.Close className="mt-4 rounded-full bg-blue-700 px-4 py-2 text-white">Close</Dialog.Close></Dialog.Content></Dialog.Portal></Dialog.Root>; }

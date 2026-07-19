@@ -1,0 +1,1 @@
+self.onmessage = event => { const { trains, sortBy } = event.data; const sorted = [...trains].sort((a, b) => sortBy === 'fare' ? a.fare - b.fare : b.confirmationProbability - a.confirmationProbability); self.postMessage(sorted); };

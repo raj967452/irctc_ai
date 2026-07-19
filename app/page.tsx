@@ -1,7 +1,0 @@
-import { ArchitecturePanel } from '@/components/ArchitecturePanel';
-import { Hero } from '@/components/Hero';
-import { TrainSearch } from '@/components/TrainSearch';
-
-const pages = [ ['Book Ticket', '< 900ms', 'RSC + optimistic booking'], ['PNR Status', '< 350ms', 'edge cache'], ['Live Train', '< 500ms', 'streaming updates'], ['Meals', '< 700ms', 'async partner calls'], ['Refunds', '< 600ms', 'event-sourced workflow'] ];
-
-export default function Home() { return <main><Hero /><section className="mx-auto -mt-8 grid max-w-7xl gap-4 px-6 md:grid-cols-5">{pages.map(([name, sla, note]) => <article key={name} className="glass rounded-3xl p-5"><span className="text-sm text-slate-500">{name}</span><strong className="block text-2xl text-rail">{sla}</strong><small>{note}</small></article>)}</section><section className="mx-auto grid max-w-7xl gap-6 px-6 py-8 md:grid-cols-[1.2fr_.8fr]"><TrainSearch /><aside className="glass rounded-3xl p-6"><h2 className="text-2xl font-black">AI-enabled advanced booking</h2><ul className="mt-4 space-y-3 text-slate-700"><li>Intent extraction for origin, destination, quota, class, and date.</li><li>Waitlist probability prediction with alternate-train ranking.</li><li>Fraud, bot, and payment-risk scoring before confirmation.</li><li>Personalized accessibility, meal, berth, and disruption alerts.</li></ul></aside></section><section className="mx-auto max-w-7xl px-6 pb-12"><ArchitecturePanel /></section></main>; }

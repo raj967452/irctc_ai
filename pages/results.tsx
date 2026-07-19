@@ -1,3 +1,6 @@
+import dynamic from 'next/dynamic';
 import { PageShell } from '@/components/PageShell';
-export default function Page() { return <PageShell title="Search Results" description="ISR-backed train results with inventory deltas streamed from booking services."><div className="rounded-2xl bg-blue-50 p-5 font-bold text-blue-900">Performance target: 50-100ms global edge response, ISR for semi-static data, and offline-safe PWA reads.</div></PageShell>; }
-export const getStaticProps = async () => ({ props: {}, revalidate: 60 });
+import { SkeletonLoader } from '@/components/SkeletonLoader';
+const ResultsExperience = dynamic(() => import('@/components/results/ResultsExperience').then(mod => mod.ResultsExperience), { loading: () => <SkeletonLoader />, ssr: false });
+export default function Results() { return <PageShell title="Search Results" description="Virtualized 1000+ train list, WebSocket seat availability, Web Worker filters, AI probability badges, price prediction, skeleton loading, and infinite scroll."><ResultsExperience /></PageShell>; }
+export const getServerSideProps = async () => ({ props: {} });

@@ -1,3 +1,6 @@
+import dynamic from 'next/dynamic';
 import { PageShell } from '@/components/PageShell';
-export default function Page() { return <PageShell title="AI Chat Interface" description="Natural-language booking assistant for route planning and passenger intent."><div className="rounded-2xl bg-blue-50 p-5 font-bold text-blue-900">Performance target: 50-100ms global edge response, ISR for semi-static data, and offline-safe PWA reads.</div></PageShell>; }
+import { SkeletonLoader } from '@/components/SkeletonLoader';
+const AIAssistantExperience = dynamic(() => import('@/components/assistant/AIAssistantExperience').then(mod => mod.AIAssistantExperience), { loading: () => <SkeletonLoader />, ssr: false });
+export default function Chat() { return <PageShell title="AI Chat Interface" description="Conversational interface for natural language search, voice input, contextual recommendations, booking assistance, complaints, and 12 Indian languages."><AIAssistantExperience /></PageShell>; }
 export const getStaticProps = async () => ({ props: {}, revalidate: 60 });

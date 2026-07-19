@@ -14,7 +14,8 @@
     "next": "14.2.5",
     "react": "latest",
     "react-dom": "latest",
-    "zustand": "latest"
+    "zustand": "latest",
+    "react-window": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",
