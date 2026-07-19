@@ -47,17 +47,34 @@ test('persisted booking store and optimistic API client are implemented', async 
   assert.match(api, /invalidateQueries/);
 });
 
-test('performance optimizations and PWA booking blueprint are present', async () => {
+test('frontend performance optimizations are present without backend coupling', async () => {
   const shell = await readFile('components/performance/DynamicBookingShell.tsx', 'utf8');
   const perf = await readFile('docs/performance-optimizations.md', 'utf8');
-  const serviceWorker = await readFile('public/sw.js', 'utf8');
   assert.match(shell, /dynamic\(\(\) => import/);
   assert.match(shell, /lazy\(\(\) => import/);
   assert.match(perf, /50-100ms global response/);
   assert.match(perf, /AVIF and WebP/);
   assert.match(perf, /Brotli/);
+});
+
+test('PWA system is documented separately from backend services', async () => {
+  const pwa = await readFile('docs/pwa-strategy.md', 'utf8');
+  const serviceWorker = await readFile('public/sw.js', 'utf8');
+  assert.match(pwa, /intentionally scoped only to browser\/PWA behavior/);
+  assert.match(pwa, /Offline browsing/);
+  assert.match(pwa, /Background sync/);
+  assert.match(pwa, /Push notifications/);
   assert.match(serviceWorker, /booking-status-sync/);
   assert.match(serviceWorker, /push/);
+});
+
+test('backend system is documented separately from PWA behavior', async () => {
+  const backend = await readFile('docs/backend-system.md', 'utf8');
+  assert.match(backend, /intentionally scoped only to server-side architecture/);
+  assert.match(backend, /Gateway boundary/);
+  assert.match(backend, /Search Service/);
+  assert.match(backend, /Booking Service/);
+  assert.match(backend, /AI Service/);
 });
 
 
